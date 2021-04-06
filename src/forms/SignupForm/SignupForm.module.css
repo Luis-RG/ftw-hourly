@@ -28,6 +28,14 @@
   width: calc(66% - 9px);
 }
 
+.phone {
+  margin-top: 24px;
+
+  @media (--viewportMedium) {
+    margin-top: 32px;
+  }
+}
+
 .password {
   @apply --marketplaceModalPasswordMargins;
 }
