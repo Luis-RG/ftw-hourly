@@ -149,6 +149,7 @@ const stateDescription = {
     },
 
     [STATE_DECLINED]: {},
+    [STATE_DECLINED_BY_OPERATOR]: {},
     [STATE_ACCEPTED]: {
       on: {
         [TRANSITION_CANCEL]: STATE_CANCELED,
@@ -242,8 +243,12 @@ export const txIsRequested = tx =>
 export const txIsAccepted = tx =>
   getTransitionsToState(STATE_ACCEPTED).includes(txLastTransition(tx));
 
+const transitionsToDeclined = [
+...getTransitionsToState(STATE_DECLINED),
+...getTransitionsToState(STATE_DECLINED_BY_OPERATOR),
+];
 export const txIsDeclined = tx =>
-  getTransitionsToState(STATE_DECLINED).includes(txLastTransition(tx));
+transitionsToDeclined.includes(txLastTransition(tx));
 
 export const txIsCanceled = tx =>
   getTransitionsToState(STATE_CANCELED).includes(txLastTransition(tx));
@@ -308,6 +313,7 @@ export const isRelevantPastTransition = transition => {
     TRANSITION_COMPLETE,
     TRANSITION_CONFIRM_PAYMENT,
     TRANSITION_DECLINE,
+    TRANSITION_DECLINE_BY_OPERATOR,
     TRANSITION_EXPIRE,
     TRANSITION_REVIEW_1_BY_CUSTOMER,
     TRANSITION_REVIEW_1_BY_PROVIDER,
